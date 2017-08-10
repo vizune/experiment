@@ -7,7 +7,8 @@ var jshint = require('gulp-jshint'),
 	concat = require('gulp-concat'),
 	uglify = require('gulp-uglify'),
 	cleancss = require('gulp-clean-css'),
-	rename = require('gulp-rename');
+	rename = require('gulp-rename'),
+	sourcemaps = require('gulp-sourcemaps');
 	
 var paths = {
 	scss: 'src/scss/*.scss',
@@ -15,21 +16,16 @@ var paths = {
 	html: 'src/*.html',
 	css: 'dist/css'
 }
-	
-// JS hint - checks JS files for errors in the code
-gulp.task('jshint', function() {
-	return gulp.src(paths.js)
-		.pipe(jshint())
-		.pipe(jshint.reporter('default'));
-});
 
 gulp.task('cssbundle', function() {
 	return gulp.src(paths.scss)
-		.pipe(sass())
+		.pipe(sourcemaps.init())
+		.pipe(sass().on('error', sass.logError))
 		.pipe(concat('style.css'))
 		.pipe(gulp.dest(paths.css))
 		.pipe(rename('style.min.css'))
 		.pipe(cleancss())
+		.pipe(sourcemaps.write('.'))
 		.pipe(gulp.dest(paths.css));
 });
 
@@ -39,10 +35,14 @@ gulp.task('jsbundle', function() {
 		'!src/js/vendor/*.js',
 		paths.js
 		])
+		.pipe(sourcemaps.init())
+		.pipe(jshint())
+		.pipe(jshint.reporter('default'))
 		.pipe(concat('bundle.js'))
 		.pipe(gulp.dest('dist/js'))
 		.pipe(rename('bundle.min.js'))
 		.pipe(uglify())
+		.pipe(sourcemaps.write('.'))
 		.pipe(gulp.dest('dist/js'));
 });
 
@@ -66,4 +66,4 @@ gulp.task('watch', function() {
 });
 
 // Default task - used as a group reference to our other tasks. This will be the task that is run upon entering gulp in the command line
-gulp.task('default', ['jshint', 'cssbundle', 'jsbundle', 'library', 'htmlDist', 'watch']);
+gulp.task('default', ['jsbundle', 'library', 'cssbundle', 'htmlDist', 'watch']);
