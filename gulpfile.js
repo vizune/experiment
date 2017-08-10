@@ -23,13 +23,6 @@ gulp.task('jshint', function() {
 		.pipe(jshint.reporter('default'));
 });
 
-// Sass - Compiles sass files from src/scss and saves the compiled css files into dist/css
-gulp.task('sass', function() {
-	return gulp.src(paths.scss)
-		.pipe(sass())
-		.pipe(gulp.dest(paths.css));
-});
-
 gulp.task('cssbundle', function() {
 	return gulp.src(paths.scss)
 		.pipe(sass())
@@ -67,8 +60,9 @@ gulp.task('htmlDist', function() {
 
 // Watch - method will listen for changes made to files and automatically run tasks
 gulp.task('watch', function() {
-	gulp.watch(paths.js, ['lint', 'scripts']);
-	gulp.watch(paths.scss, ['sass']);
+	gulp.watch(paths.js, ['jshint', 'jsbundle']);
+	gulp.watch(paths.scss, ['cssbundle']);
+	gulp.watch(paths.html, ['htmlDist']);
 });
 
 // Default task - used as a group reference to our other tasks. This will be the task that is run upon entering gulp in the command line
