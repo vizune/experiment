@@ -60,7 +60,7 @@ gulp.task('htmlDist', function() {
 
 // Watch - method will listen for changes made to files and automatically run tasks
 gulp.task('watch', function() {
-	gulp.watch(paths.js, ['jshint', 'jsbundle']);
+	gulp.watch(paths.js, ['jsbundle']);
 	gulp.watch(paths.scss, ['cssbundle']);
 	gulp.watch(paths.html, ['htmlDist']);
 });
