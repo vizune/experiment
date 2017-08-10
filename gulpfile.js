@@ -9,8 +9,8 @@ var jshint = require('gulp-jshint'),
 	cleancss = require('gulp-clean-css'),
 	rename = require('gulp-rename');
 	
-// Lint - checks JS files for errors in the code
-gulp.task('lint', function() {
+// JS hint - checks JS files for errors in the code
+gulp.task('jshint', function() {
 	return gulp.src('src/js/*js')
 		.pipe(jshint())
 		.pipe(jshint.reporter('default'));
@@ -52,11 +52,17 @@ gulp.task('library', function() {
 		.pipe(gulp.dest('dist/js/vendor'));
 });
 
+// Copy HTML to dist folder
+gulp.task('html', function() {
+	return gulp.src('src/*.html')
+		.pipe(gulp.dest('dist'));
+});
+
 // Watch - method will listen for changes made to files and automatically run tasks
 gulp.task('watch', function() {
-	gulp.watch('js/*.js', ['lint', 'scripts']);
-	gulp.watch('scss/*.scss', ['sass']);
+	gulp.watch('src/js/*.js', ['lint', 'scripts']);
+	gulp.watch('src/scss/*.scss', ['sass']);
 });
 
 // Default task - used as a group reference to our other tasks. This will be the task that is run upon entering gulp in the command line
-gulp.task('default', ['lint', 'cssbundle', 'jsbundle', 'library', 'watch']);
+gulp.task('default', ['jshint', 'cssbundle', 'jsbundle', 'library', 'html', 'watch']);

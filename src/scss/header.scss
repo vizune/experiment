@@ -1,0 +1,54 @@
+$color1: #3498db;
+$color2: #e74c3c;
+$color3: #f1c40f;
+$w: #fff;
+
+header {
+	border: none;
+	position: relative;
+	
+	.grid {
+		display: grid;
+		grid: repeat(4,3rem)/repeat(5,1fr);
+		grid-gap: 3px;
+		width: 100%;
+		position: absolute;
+		transform: skewY(-12deg);
+		margin-top: 10%;
+		background: $w;
+		border-top: 3px solid $w;
+		border-bottom: 3px solid $w;
+		
+		@media(min-width: 768px) {
+			grid: repeat(4,5rem)/repeat(5,1fr);
+			grid-gap: 5px;
+			border-top: 5px solid $w;
+			border-bottom: 5px solid $w;
+		}
+		
+		& > span {
+			background-color: $color1;
+			box-shadow: 0 0 1px $color1;
+			padding: 20px;
+			
+			&:nth-child(2n + 1) {
+				background-color: $color3;
+				box-shadow: 0 0 1px $color3;
+			}
+			
+			/*&:nth-child(3n + 1) {
+				background-color: $color3;
+				box-shadow: 0 0 1px $color3;
+			}*/
+			
+			&.col-span-3 {
+				grid-column: span 3;
+			}
+			
+			&.col-span-2 {
+				grid-column: span 2;
+			}
+			
+		}
+	}
+}
